@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<% _.each(items, function(topC) {
+			if (topC.id == title) { %>
+				<title><%= topC.page_title %></title>
+			<% } 
+		}); %>
+        <%- include('head.ejs') %>
+    </head>
+
+    <body>
+			<%- include('header.ejs') %>
+			<nav style="background-color: #000; line-height: 30px; height: 30px;">
+				<div class="container">
+					<div class="nav-wrapper">
+						<div class="col s12">
+							<a href="/" class="breadcrumb">Home</a>
+							<span class="breadcrumb">
+								<% _.each(items, function(topC) { 
+									if (topC.id == title) { %>
+										<%= topC.name %>
+									<% } 
+								}); %>
+							</span>
+						</div>
+					</div>
+				</div>
+			</nav>
+			<div class="container">
+				<div class="page-header">
+					<% _.each(items, function(topC) { 
+						if (topC.id == title) { %>
+							<h3><%= topC.name %></h3>
+							<p><%= topC.page_description %></p>
+							<% if (topC.image) { %>
+							<div>
+								<img src="/images/<%= topC.image %>">
+							</div>
+							<% } %>
+							<div class="row">
+								<% _.each(topC.categories, function(subC) { %>
+								<div class="col s12 m6">
+									<div class="card">
+										<div class="card-image">
+											<% if (subC.image) { %>
+											<img src="/images/<%= subC.image %>">
+											<% } else { %>
+											<div class="" style="height:110px; background: #000;"></div>
+											<% } %>
+											<span class="card-title"><%= subC.name %></span>
+										</div>
+										<div class="card-content">
+											<p><%= subC.page_description %></p>
+										</div>
+										<div class="card-action">
+											<a class="waves-effect waves-light btn" href="/sub-category/<%= subC.id %>">Go</a>
+										</div>
+									</div>
+								</div>
+								<% }); %>
+							</div>
+						<% } 
+					}); %>
+				</div>
+			</div>
+
+			<%- include('footer.ejs') %>
+    </body>
+</html>
+
+

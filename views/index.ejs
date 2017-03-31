@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <%- include('head.ejs') %>
+    </head>
+    
+    <body>
+
+		<%- include('header.ejs') %>
+
+		<div class="container">
+			<div class="page-header">
+				<h2><%= title %></h2>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+			</div>
+
+			<div class="row">
+				<% _.each(items, function(topC) { %>
+				<div class="col s12 m6">
+					<div class="card blue-grey darken-1">
+						<div class="card-content white-text">
+						<span class="card-title"><%= topC.name %></span>
+						<p><%= topC.page_description %></p>
+						</div>
+						<div class="card-action">
+						<a href="/category/<%= topC.id %>" class="waves-effect waves-light btn">View</a>
+						</div>
+					</div>
+				</div>
+				<% }); %>
+			</div>
+		</div>
+
+		<%- include('footer.ejs') %>
+    </body>
+</html>

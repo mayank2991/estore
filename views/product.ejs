@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<title>
+		<% _.each(catitems, function(mainCat) { %>
+			<% _.each(mainCat.categories, function(topCat) { %>
+				<% _.each(topCat.categories, function(catName) { %>
+					<%if (catName.id == title) { %>
+						<%= catName.page_title %>
+					<% } %>
+				<% }); %>
+			<% }); %>
+		<% }); %>
+	</title>
+	<%- include('head.ejs') %>
+	</head>
+
+    <body>
+		<%- include('header.ejs') %>
+		<nav style="background-color: #000; line-height: 30px; height: 30px;">
+			<div class="container">
+				<div class="nav-wrapper">
+					<div class="col s12">
+						<a href="/" class="breadcrumb">Home</a>
+						<% _.each(catitems, function(mainCat) { %>
+							<% _.each(mainCat.categories, function(topCat) { %>
+								<% _.each(topCat.categories, function(catName) { %>
+									<%if (catName.id == title) { %>
+										<a href="/sub-category/<%= catName.parent_category_id %>" class="breadcrumb"><%= catName.parent_category_id %></a>
+										<span class="breadcrumb"><%= catName.name %><span>
+									<% } %>
+								<% }); %>
+							<% }); %>
+						<% }); %>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div class="container">
+			<div class="page-header">
+				
+				<% _.each(catitems, function(mainCat) { %>
+					<% _.each(mainCat.categories, function(topCat) { %>
+						<% _.each(topCat.categories, function(catName) { %>
+							<%if (catName.id == title) { %>
+								<h4><%= catName.name %></h4>
+							<% } %>
+						<% }); %>
+					<% }); %>
+				<% }); %>
+
+				<div class="row">
+					<% _.each(items, function(subCat) { %>
+						<%if (subCat.primary_category_id == title) { %>
+
+							<div class="col s12 l3 m6">
+								<div class="card">
+									<div class="card-image waves-effect waves-block waves-light">
+										<% if (subCat.image_groups) { %>
+										<img src="/images/<%= subCat.image_groups[0].images[0].link %>" alt="<%= subCat.image_groups[0].images[0].alt %>">
+										<% } %>
+									</div>
+									<div class="card-content">
+										<span class="card-title activator grey-text text-darken-4" title="<%= subCat.name %>"><span style="white-space: nowrap; width: 84%; display: inline-block; overflow: hidden; text-overflow: ellipsis; font-size: 20px;"><%= subCat.name %></span><i class="material-icons right">more_vert</i></span>
+										<p><a href="/show-product/<%= subCat.id %>" class="waves-effect waves-light btn">View Details</span></a></p>
+									</div>
+									<div class="card-reveal">
+										<span class="card-title grey-text text-darken-4"><span style="width: 84%; display: inline-block;"><%= subCat.name %></span><i class="material-icons right">close</i></span>
+										<p><%= subCat.page_description %></p>
+										<div class="collection">
+											<a class="collection-item">Price : <span class="badge"><%= subCat.price %> <%= subCat.currency %></span></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						<% } %>
+					<% }); %>
+				</div>
+			</div>
+		</div>
+		<%- include('footer.ejs') %>
+    </body>
+</html>

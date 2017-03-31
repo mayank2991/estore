@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<title>Cart</title>
+	<%- include('head.ejs') %>
+	</head>
+
+    <body>
+		<%- include('header.ejs') %>
+		
+		<div class="container" style="margin-top: 40px; margin-bottom: 40px;">
+			<h3>Cart</h3>
+			<% if (cookies != null && JSON.parse(cookies).length) { %>
+				<table class="striped">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Product</th>
+							<th></th>
+							<th width="150">Qty</th>
+							<th width="150">Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% var orderdata = JSON.parse(cookies); %>
+						<% _.each(orderdata, function(order) { %>
+							<% _.each(items, function(proid) { %>
+								<%if (proid.id == order.id) { %>
+								<tr>
+									<td style="text-align: center;"><i class="material-icons dp48 remove-order" data-remove="<%= proid.id %>" title="Remove">delete</i></td>
+									<td>
+										<div style="float:left; margin: 0 10px 0 0;">
+											<% if (proid.image_groups) { %>
+												<% _.each(proid.image_groups, function(imgList) { %>
+													<% if (imgList.view_type == "small" & !imgList.variation_value) { %>
+														<img src="/images/<%= imgList.images[0].link %>" alt="<%= imgList.images[0].alt %>">
+													<% } %>
+												<% }); %>									
+											<% } %>
+										</div>
+										<div>
+											<strong><%= proid.name %></strong> <br />
+											<small>Color : <%= order.Color %></small> <br />
+											<small>Size : <%= order.Size %></small> <br />
+											<small>Price for one : <%= proid.price %> <%= proid.currency%></small>
+										</div>
+									</td>
+									<td style="text-align: center;"><i class="material-icons dp48 edit" title="Edit">mode_edit</i></td>
+									<td><%= order.Qty %></td>
+									<td><span class="pro_price"><%= order.Qty * proid.price %></span> <%= proid.currency%></td>
+								</tr>
+								<% } %>
+							<% }); %>
+						<% }); %>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="4"> Totle</td>
+							<td><span class="totle"></span> USD</td>
+						</tr>
+					</tfoot>
+				</table>
+			<% } else { %>
+				<h6>Cart is empty. <a href="/" >Add some Products</a></h6>
+				<div class="row">
+				<% _.each(Categories, function(topC) { %>
+				<div class="col s12 m6">
+					<div class="card blue-grey darken-1">
+						<div class="card-content white-text">
+						<span class="card-title"><%= topC.name %></span>
+						<p><%= topC.page_description %></p>
+						</div>
+						<div class="card-action">
+						<a href="/category/<%= topC.id %>" class="waves-effect waves-light btn">View</a>
+						</div>
+					</div>
+				</div>
+				<% }); %>
+			</div>
+			<% } %>
+		</div>
+
+		<%- include('footer.ejs') %>
+    </body>
+
+	<script>
+		$(document).ready(function() {
+			var totlePrice = 0;
+			$('.pro_price').each( function(){
+				var price = parseInt($(this).text());
+				totlePrice = totlePrice + price;
+				$(this).text(price.toFixed(2));
+			});
+			var i = (totlePrice).toFixed(2)
+			$('.totle').html(i);
+		});
+	</script>
+
+</html>
