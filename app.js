@@ -29,6 +29,7 @@ app.get("/product/:data", routes.product);
 app.get("/show-product/:data", routes.showproduct);
 app.get("/thank-you", routes.thankyou);
 app.get("/cart", routes.cart);
+app.get("/productlist", routes.productlist);
 
 app.post('/order', routes.order);
 app.post('/feedback', routes.feedback);

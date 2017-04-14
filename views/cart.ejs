@@ -39,13 +39,19 @@
 											<% } %>
 										</div>
 										<div>
-											<strong><%= proid.name %></strong> <br />
+											<a href="/show-product/<%= proid.id %>"><%= proid.name %></a> <br />
+											<% if (order.Color) { %>
 											<small>Color : <%= order.Color %></small> <br />
+											<% } %>
+											<% if (order.Size) { %>
 											<small>Size : <%= order.Size %></small> <br />
+											<% } %>
+											<% if (proid.price) { %>
 											<small>Price for one : <%= proid.price %> <%= proid.currency%></small>
+											<% } %>
 										</div>
 									</td>
-									<td style="text-align: center;"><i class="material-icons dp48 edit" title="Edit">mode_edit</i></td>
+									<td style="text-align: center;"><a class="material-icons dp48 edit" href="#editProduct" data-edit="<%= proid.id %>" data-color="<%= order.Color %>" data-size="<%= order.Size %>" data-qty="<%= order.Qty %>" title="Edit">mode_edit</a></td>
 									<td><%= order.Qty %></td>
 									<td><span class="pro_price"><%= order.Qty * proid.price %></span> <%= proid.currency%></td>
 								</tr>
@@ -60,6 +66,10 @@
 						</tr>
 					</tfoot>
 				</table>
+				<div class="cart-footer">
+					<a href="/" class="waves-effect waves-light btn">Shop More</a>
+					<a href="/" class="waves-effect waves-light btn">Check Out</a>
+				</div>
 			<% } else { %>
 				<h6>Cart is empty. <a href="/" >Add some Products</a></h6>
 				<div class="row">
@@ -79,21 +89,16 @@
 			</div>
 			<% } %>
 		</div>
-
+		<!-- Modal Structure -->
+		<div id="editProduct" class="modal">
+			<div class="modal-content">
+				
+			</div>
+			<div class="modal-footer">
+				<a href="#" data-remove="" class="remove_btn modal-action modal-close waves-effect waves-light btn">Remove</a>
+				<a href="#" data-update="" class="update_btn modal-action modal-close waves-effect waves-light btn">Update</a>
+			</div>
+		</div>
 		<%- include('footer.ejs') %>
     </body>
-
-	<script>
-		$(document).ready(function() {
-			var totlePrice = 0;
-			$('.pro_price').each( function(){
-				var price = parseInt($(this).text());
-				totlePrice = totlePrice + price;
-				$(this).text(price.toFixed(2));
-			});
-			var i = (totlePrice).toFixed(2)
-			$('.totle').html(i);
-		});
-	</script>
-
 </html>

@@ -96,3 +96,11 @@ exports.feedback = function(req, res, next){
   db.feedbackdb(req);
   res.redirect('/thank-you');
 };
+
+exports.productlist = function(req, res) {
+	db.getProducts(function(items) {
+        var Product = items;
+		res.type('text/plain');
+		res.json(Product);
+	});
+};
